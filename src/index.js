@@ -2,7 +2,8 @@ import { initializeApp } from 'firebase/app'
 import {
     getFirestore, collection, onSnapshot,
     addDoc, deleteDoc, doc,
-    query, where
+    query, where,
+    orderBy, serverTimestamp
 } from 'firebase/firestore'
 const firebaseConfig = {
     apiKey: "AIzaSyCL7Nds1VwhyzwPxETlQle2rDB-6Rz_awI",
@@ -23,7 +24,10 @@ const firebaseConfig = {
   const colRef = collection(db, 'books')
 
   //queries
-  const q = query(colRef, where("author", "==", "Sun zu"))
+//   const q = query(colRef, where("author", "==", "Sun zu"), orderBy('title', 'desc'))
+const q = query(colRef,  orderBy('createdAt'))
+
+//note: each time we add anew doc, firefase sends two data to our console, this is because the timestamp isnt included in the first data because it was still been processed
 
 //retrieve collection data
 //   getDocs(colRef)
@@ -57,7 +61,8 @@ addBookForm.addEventListener('submit', (e) => {
 
     addDoc(colRef, {
         title: addBookForm.title.value,
-        author: addBookForm.author.value 
+        author: addBookForm.author.value,
+        createdAt: serverTimestamp()
     })
     .then(() => {
         addBookForm.reset()
