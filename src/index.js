@@ -56,7 +56,15 @@ const q = query(colRef,  orderBy('createdAt'))
 
 //real time collection
 // onSnapshot(colRef, (snapshot) => {
-onSnapshot(q, (snapshot) => {
+// onSnapshot(q, (snapshot) => {
+//     let books = []
+//     snapshot.docs.forEach((doc) =>{
+//         books.push({ ...doc.data(), id: doc.id })
+//     })
+//     console.log(books)
+// })
+
+const unsubCol = onSnapshot(q, (snapshot) => {
     let books = []
     snapshot.docs.forEach((doc) =>{
         books.push({ ...doc.data(), id: doc.id })
@@ -99,7 +107,11 @@ const dataRef = doc(db, 'books', 'mtHDbDp7mu6tMtUTFLkr')
 //         console.log(doc.data(), doc.id);
 //     })
 
-onSnapshot(dataRef, (doc) => {
+// const unsubDoc =onSnapshot(dataRef, (doc) => {
+//     console.log(doc.data(), doc.id);
+// })
+
+const unsubDoc =onSnapshot(dataRef, (doc) => {
     console.log(doc.data(), doc.id);
 })
 
@@ -166,6 +178,21 @@ loginForm.addEventListener('submit', (e) => {
 })
 
 //subscribing to auth chnages
-onAuthStateChanged(auth, (user) => {
+// onAuthStateChanged(auth, (user) => {
+//     console.log('user status change: ', user);
+// })
+
+const unsubAuth = onAuthStateChanged(auth, (user) => {
     console.log('user status change: ', user);
+})
+
+//Unsubscribe from db/auth changes
+
+const unsubButton = document.querySelector('.unsubscribe')
+unsubButton.addEventListener('click', (e) => {
+    e.preventDefault()
+    console.log('Unsubscribing...');
+    unsubCol()
+    unsubDoc()
+    unsubAuth()
 })
