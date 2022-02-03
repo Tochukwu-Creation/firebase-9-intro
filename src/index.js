@@ -3,7 +3,8 @@ import {
     getFirestore, collection, onSnapshot,
     addDoc, deleteDoc, doc,
     query, where,
-    orderBy, serverTimestamp
+    orderBy, serverTimestamp,
+    getDoc
 } from 'firebase/firestore'
 const firebaseConfig = {
     apiKey: "AIzaSyCL7Nds1VwhyzwPxETlQle2rDB-6Rz_awI",
@@ -79,4 +80,15 @@ deleteBookForm.addEventListener('submit', (e) => {
     .then(() => {
         deleteBookForm.reset()
     })
+})
+
+//get single data
+const dataRef = doc(db, 'books', 'mtHDbDp7mu6tMtUTFLkr')
+// getDoc(dataRef)
+//     .then((doc) => {
+//         console.log(doc.data(), doc.id);
+//     })
+
+onSnapshot(dataRef, (doc) => {
+    console.log(doc.data(), doc.id);
 })
