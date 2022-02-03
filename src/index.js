@@ -1,7 +1,8 @@
 import { initializeApp } from 'firebase/app'
 import {
     getFirestore, collection, onSnapshot,
-    addDoc, deleteDoc, doc
+    addDoc, deleteDoc, doc,
+    query, where
 } from 'firebase/firestore'
 const firebaseConfig = {
     apiKey: "AIzaSyCL7Nds1VwhyzwPxETlQle2rDB-6Rz_awI",
@@ -21,6 +22,9 @@ const firebaseConfig = {
   //collection ref - get a specific sollection
   const colRef = collection(db, 'books')
 
+  //queries
+  const q = query(colRef, where("author", "==", "Sun zu"))
+
 //retrieve collection data
 //   getDocs(colRef)
 //     .then((snapshot) => {
@@ -36,7 +40,8 @@ const firebaseConfig = {
 //     })
 
 //real time collection
-onSnapshot(colRef, (snapshot) => {
+// onSnapshot(colRef, (snapshot) => {
+onSnapshot(q, (snapshot) => {
     let books = []
     snapshot.docs.forEach((doc) =>{
         books.push({ ...doc.data(), id: doc.id })
