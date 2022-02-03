@@ -6,6 +6,11 @@ import {
     orderBy, serverTimestamp,
     getDoc, updateDoc
 } from 'firebase/firestore'
+
+import {
+    getAuth
+} from 'firebase/auth'
+
 const firebaseConfig = {
     apiKey: "AIzaSyCL7Nds1VwhyzwPxETlQle2rDB-6Rz_awI",
     authDomain: "fir-9-intro-617b2.firebaseapp.com",
@@ -20,6 +25,9 @@ const firebaseConfig = {
 
   //init firestore service
   const db = getFirestore()
+
+  //initialize auth service
+  const auth = getAuth()
 
   //collection ref - get a specific sollection
   const colRef = collection(db, 'books')
