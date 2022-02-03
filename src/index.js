@@ -8,7 +8,8 @@ import {
 } from 'firebase/firestore'
 
 import {
-    getAuth, createUserWithEmailAndPassword
+    getAuth, createUserWithEmailAndPassword, signOut,
+    signInWithEmailAndPassword
 } from 'firebase/auth'
 
 const firebaseConfig = {
@@ -132,5 +133,33 @@ signupForm.addEventListener('submit', (e) => {
     })
     .catch((err) => {
         console.log(err.message)
+    })
+})
+
+//logout
+const logoutButton = document.querySelector('.logout')
+logoutButton.addEventListener('click', (e) => {
+    e.preventDefault()
+    signOut(auth)
+    .then(() => {
+        console.log('User signed out');
+    })
+    .catch(() => {
+        console.log(err.message);
+    })
+})
+
+//login user
+const loginForm = document.querySelector('.login')
+loginForm.addEventListener('submit', (e) => {
+    e.preventDefault()
+    const email = loginForm.email.value
+    const password = loginForm.password.value
+    signInWithEmailAndPassword(auth, email, password)
+    .then((cred) => {
+        console.log('User logged in: ',  cred.user);
+    })
+    .catch((err) => {
+        console.log(err.message);
     })
 })
